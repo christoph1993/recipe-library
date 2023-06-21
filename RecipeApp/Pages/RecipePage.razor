@@ -1,0 +1,44 @@
+﻿@page "/recipe-page/{recipeId?}"
+
+@if (_loading)
+{
+    <p>Loading...</p>
+}
+else
+{
+    @if (_recipe == null)
+    {
+        <p>Recipe does not exist. Click <a href="new-recipe">here</a> to add a new Recipe.</p>
+    }
+    else
+    {
+        <h1>Recipe: @_recipe.Name</h1>
+        <h4>@_recipe.Description</h4>
+
+        <div>
+            <div class="tab" @onclick="(() => _activeTab = ActiveTab.Ingredients)" @class="@(_activeTab == ActiveTab.Ingredients ? "active":"")">Ingredients</div>
+            <div class="tab" @onclick="(() => _activeTab = ActiveTab.Steps)" @class="@(_activeTab == ActiveTab.Steps ? "active":"")">Steps</div>
+        </div>
+        <div class="tab-content">
+            @if (_activeTab == ActiveTab.Ingredients)
+            {
+                <ul>
+                    @foreach (var ingredient in _recipe.Ingredients)
+                    {
+                        <li>@ingredient</li>
+                    }
+                </ul>
+            }
+            else if (_activeTab == ActiveTab.Steps)
+            {
+                <ol>
+                    @foreach (var step in _recipe.Steps)
+                    {
+                        <li>@step</li>
+                    }
+                </ol>
+            }
+        </div>
+    }
+}
+
